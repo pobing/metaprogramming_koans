@@ -3,3 +3,4 @@ dist
 .path_progress
 *.rbc
 .idea
+*.tags*

@@ -19,7 +19,7 @@ class AboutModules < EdgeCase::Koan
   end
   
   def test_module_methods_are_active
-    assert_equal __, Foo.new.say_hello
+    assert_equal "Hi", Foo.new.say_hello
   end
   
   def test_extend_adds_singleton_methods
