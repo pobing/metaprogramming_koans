@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/edgecase')
 class AboutInstanceEvalAndClassEval < EdgeCase::Koan
 
   def test_instance_eval_executes_block_in_the_context_of_the_receiver
-    assert_equal __, "cat".instance_eval { upcase }
+    assert_equal "CAT", "cat".instance_eval { upcase }
   end
   
   class Foo
@@ -13,7 +13,7 @@ class AboutInstanceEvalAndClassEval < EdgeCase::Koan
   end
   
   def test_instance_eval_can_access_instance_variables
-    assert_equal __, Foo.new.instance_eval { @ivar }
+    assert_equal 99, Foo.new.instance_eval { @ivar }
   end
 
   class Foo
@@ -24,7 +24,7 @@ class AboutInstanceEvalAndClassEval < EdgeCase::Koan
   end
   
   def test_instance_eval_can_access_private_methods
-    assert_equal __, Foo.new.instance_eval { secret } 
+    assert_equal 123, Foo.new.instance_eval { secret } 
   end
 
   def test_instance_eval_can_be_used_to_define_singleton_methods
@@ -34,7 +34,7 @@ class AboutInstanceEvalAndClassEval < EdgeCase::Koan
         "miaow"
       end
     end
-    assert_equal __, animal.speak
+    assert_equal "miaow", animal.speak
   end
   
   class Cat
@@ -47,11 +47,11 @@ class AboutInstanceEvalAndClassEval < EdgeCase::Koan
       end      
     end
       
-    assert_equal __, Cat.say_hello
+    assert_equal "Hello", Cat.say_hello
   end
 
   def test_class_eval_executes_block_in_the_context_of_class_or_module
-    assert_equal __, Cat.class_eval { self }
+    assert_equal Cat, Cat.class_eval { self }
   end
 
   def test_class_eval_can_be_used_to_define_instance_methods
@@ -60,7 +60,7 @@ class AboutInstanceEvalAndClassEval < EdgeCase::Koan
         "miaow"
       end
     end
-    assert_equal __, Cat.new.speak
+    assert_equal "miaow", Cat.new.speak
   end
   
   def test_module_eval_is_same_as_class_eval
@@ -69,7 +69,7 @@ class AboutInstanceEvalAndClassEval < EdgeCase::Koan
         "miaow"
       end
     end
-    assert_equal __, Cat.new.miaow
+    assert_equal "miaow", Cat.new.miaow
   end
 
   module Accessor
@@ -95,7 +95,7 @@ class AboutInstanceEvalAndClassEval < EdgeCase::Koan
   def test_class_eval_can_be_used_to_create_instance_methods_like_accessors
     cat = Cat.new
     cat.name = 'Frisky'
-    assert_equal __, cat.name
+    assert_equal "Frisky", cat.name
   end
 
   module Hello
@@ -106,7 +106,7 @@ class AboutInstanceEvalAndClassEval < EdgeCase::Koan
   
   def test_class_eval_can_be_used_to_call_private_methods_on_class
     String.class_eval { include Hello }
-    assert_equal __, "hello".say_hello
+    assert_equal "hi", "hello".say_hello
   end
 
   class Turtle
@@ -129,11 +129,11 @@ class AboutInstanceEvalAndClassEval < EdgeCase::Koan
       yield
     end
   end
-  
+  # $$$
   def test_yield_executes_block_with_self_as_caller
     t = Turtle.new
     here = :here
-    assert_equal __, t.move_yield { here } 
+    assert_equal :here, t.move_yield { here } 
   end
   
   class Turtle
@@ -141,7 +141,7 @@ class AboutInstanceEvalAndClassEval < EdgeCase::Koan
       instance_eval(&block)
     end
   end
-  
+  # $$$
   def test_instance_eval_executes_block_with_self_as_called_object
     t = Turtle.new
     t.move_eval do
@@ -149,7 +149,7 @@ class AboutInstanceEvalAndClassEval < EdgeCase::Koan
       up(2)
       right(1)
     end
-    assert_equal __, t.path
+    assert_equal "rrruur", t.path
   end
   
   class Turtle
@@ -157,10 +157,10 @@ class AboutInstanceEvalAndClassEval < EdgeCase::Koan
       instance_eval { yield }
     end
   end
-  
+  # $$$
   def test_yield_inside_instance_eval_executes_block_with_self_as_caller
     still_here = :still_here
     t = Turtle.new
-    assert_equal __, t.move_eval_yield { still_here }
+    assert_equal :still_here, t.move_eval_yield { still_here }
   end
 end

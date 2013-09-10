@@ -54,9 +54,9 @@ class AboutSelf < EdgeCase::Koan
   @@object = Lion.new
   @@self_inside_instance_eval_of_object = @@object.instance_eval { self }
 
-  # def test_self_inside_instance_eval_of_object_is_the_object_itself
-  #   assert_equal AboutSelf::Lion, @@self_inside_instance_eval_of_object
-  # end
+  def test_self_inside_instance_eval_of_object_is_the_object_itself
+    assert_equal @@object, @@self_inside_instance_eval_of_object
+  end
 
   @@self_inside_instance_eval_of_class = Lion.instance_eval { self }
 
